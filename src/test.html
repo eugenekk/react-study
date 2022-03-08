@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useEffect, useState } = React;
+
+      class ErrorBoundary extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { hasError: false };
+        }
+
+        static getDerivedStateFromError(error) {
+          return { hasError: true };
+        }
+
+        render() {
+          if (this.state.hasError) {
+            return <h1>somethings went wrong</h1>;
+          }
+
+          return this.props.children; // <ErrorBoundary>children</ErrorBoundary> 태그 안의 내용들 문제없으면 그대로 랜더
+        }
+      }
+
+      function Child() {
+        useEffect(() => {
+          throw new Error('Error!');
+        }, []);
+        return <h1>Child</h1>;
+      }
+
+      function App() {
+        return (
+          <>
+            <h1>This is Example</h1>
+            <ErrorBoundary>
+              <Child />
+            </ErrorBoundary>
+          </>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

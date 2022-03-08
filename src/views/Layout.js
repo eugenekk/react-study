@@ -1,7 +1,11 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import ErrorBoundary from '../components/ErrorBoundary';
 
-const Nav = styled.nav``
+const Nav = styled.nav`
+    height : 100px;
+    background-color : skyblue;
+`
 
 const Main = styled.main`
     display: flex;
@@ -9,7 +13,8 @@ const Main = styled.main`
 
 const SideMenu = styled.div`
     min-width : 300px;
-    background-color: red;
+    min-height : 400px;
+    border : 1px solid grey;
 `
 
 const Content = styled.div``
@@ -23,10 +28,13 @@ export default function Layout() {
                 <NavLink to="/user">Users</NavLink>
             </Nav>
             <Main>
-                <SideMenu></SideMenu>
+                <SideMenu>사이드 메뉴</SideMenu>
                 <Content>
-                    {/* 각각 컴포넌트들이 보여질 곳 Outlet으로 받아줌 */}
-                    <Outlet/>
+                    {/* 에러바운더리 감싸기 */}
+                    <ErrorBoundary> 
+                        {/* 각각 컴포넌트들이 보여질 곳 Outlet으로 받아줌 */}
+                        <Outlet/>
+                    </ErrorBoundary>
                 </Content>
             </Main>
         </>
